@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pablograciano.github.io/sabor-de-calle-street-food/sitemap.xml
+Sitemap: https://www.sabordecallestreetfood.com/sitemap.xml
