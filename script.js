@@ -51,8 +51,11 @@ function toggleAccordion(button) {
                 svg.style.transform = 'rotate(180deg)';
               }
             }
-            // Smooth scroll to category
-            content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Smooth scroll to category with offset based on sticky bar height
+            const stickyBar = document.getElementById('categoryButtons');
+            const offset = stickyBar.offsetHeight + stickyBar.getBoundingClientRect().top;
+            const contentTop = content.getBoundingClientRect().top + window.pageYOffset;
+            window.scrollTo({ top: contentTop - stickyBar.offsetHeight - 8, behavior: 'smooth' });
           }
         });
       });
