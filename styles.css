@@ -1,9 +1,9 @@
-html{scroll-behavior:smooth}body{background:#09090b}.fire-bg{background:radial-gradient(circle at 15% 10%,rgba(249,115,22,.55),transparent 30%),radial-gradient(circle at 85% 20%,rgba(220,38,38,.45),transparent 30%),linear-gradient(135deg,#09090b,#18110b 55%,#09090b)}.card{transition:.25s}.card:hover{transform:translateY(-4px)}.glass{background:rgba(24,24,27,.78);backdrop-filter:blur(14px)}.carousel::-webkit-scrollbar{display:none}.carousel{scrollbar-width:none;scroll-behavior:smooth;overscroll-behavior-x:contain;touch-action:pan-x}
-
-.category-content { display: none; }
-    .category-content.active { display: block; }
-    .category-tab:focus, .category-tab.active {
-      background-color: #22c55e;
-      color: #111827;
-      outline: none;
-    }
+html, body { background:#09090b !important; color:#fff !important; scroll-behavior:smooth; }
+  body { font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .fire-bg { background: radial-gradient(circle at 20% 10%, rgba(249,115,22,.30), transparent 30%), radial-gradient(circle at 80% 0%, rgba(220,38,38,.22), transparent 30%), linear-gradient(135deg,#09090b,#18110b 55%,#09090b); }
+  .glass { background: rgba(24,24,27,.74); border:1px solid rgba(255,255,255,.10); backdrop-filter: blur(10px); }
+  .cat-img { background: linear-gradient(135deg, rgba(249,115,22,.35), rgba(220,38,38,.16)); }
+  details > summary { list-style:none; }
+  details > summary::-webkit-details-marker { display:none; }
+  .cart-panel { max-height: calc(100vh - 120px); overflow:auto; }
+  .cat-chip.active { background:#f97316; color:#111827; border-color:#f97316; }
