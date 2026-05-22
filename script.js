@@ -35,10 +35,8 @@ async function loadMenu(){
     const parsed=fromRows(rows);
     if(!parsed.length) throw new Error('Hoja sin productos activos');
     categories=parsed;
-    menuStatus.textContent='Menú cargado desde Google Sheets.';
   }catch(err){
     categories=fallbackCategories;
-    menuStatus.textContent='Menú cargado desde respaldo local. Revisa la conexión de Google Sheets si hiciste cambios recientes.';
   }
   renderChips(); renderMenu();
 }
