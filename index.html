@@ -197,14 +197,14 @@
   });
 })();
 </script>  <link rel="stylesheet" href="styles.css">
-</head><body class="text-white"><header id="inicio" data-section="navbar" class="fire-bg relative overflow-hidden"><nav class="max-w-7xl mx-auto px-5 py-5 flex items-center justify-between relative z-10"><a href="#inicio" class="flex items-center gap-3"><div class="h-12 w-12 rounded-2xl bg-gradient-to-br from-yellow-300 to-orange-600 text-zinc-950 grid place-items-center font-black">SC</div><div><p class="font-black text-lg">Sabor de Calle</p><p class="text-xs tracking-[.28em] uppercase text-orange-100">Street Food</p></div></a><div class="hidden md:flex gap-6 text-sm font-bold text-orange-100"><a href="#menu" class="hover:text-yellow-300">Menú</a><a href="#pedido" class="hover:text-yellow-300">Ordenar</a><a href="#ubicacion" class="hover:text-yellow-300">Ubicación</a></div><a href="#pedido" class="rounded-full bg-yellow-300 text-zinc-950 px-5 py-3 font-black text-sm hover:bg-white transition">Ordenar ahora</a></nav><section data-section="hero" class="max-w-4xl mx-auto px-5 py-8 grid grid-cols-1 gap-6 items-center relative z-10 text-center">
+</head><body class="text-white"><header id="inicio" data-section="navbar" class="fire-bg relative overflow-hidden"><nav class="max-w-7xl mx-auto px-5 py-5 flex items-center justify-between relative z-10"><a href="#inicio" class="flex items-center gap-3"><div class="h-12 w-12 rounded-2xl bg-gradient-to-br from-yellow-300 to-orange-600 text-zinc-950 grid place-items-center font-black">SC</div><div><p class="font-black text-lg">Sabor de Calle</p><p class="text-xs tracking-[.28em] uppercase text-orange-100">Street Food</p></div></a><div class="hidden md:flex gap-6 text-sm font-bold text-orange-100"><a href="#menu" class="hover:text-yellow-300">Menú</a><a href="#pedido" class="hover:text-yellow-300">Ordenar</a><a href="#ubicacion" class="hover:text-yellow-300">Ubicación</a></div><a href="#pedido" class="rounded-full bg-yellow-300 text-zinc-950 px-5 py-3 font-black text-sm hover:bg-white transition">Ordenar ahora</a></nav><section data-section="hero" class="max-w-2xl mx-auto px-5 py-4 grid grid-cols-1 gap-4 items-center relative z-10 text-center">
   <div>
-    <h1 class="text-4xl font-black tracking-tight text-yellow-300 mb-2">Sabor de Calle Street Food</h1>
-    <span class="inline-flex rounded-full bg-black/30 border border-yellow-300/40 px-4 py-2 text-yellow-200 font-bold text-sm">🔥 Calle La Cruz No. 7, San Francisco de Macorís</span>
-    <p class="mt-4 text-lg text-orange-50 max-w-md mx-auto">Elige, arma tu pedido y envíalo por WhatsApp</p>
-    <div class="mt-6 flex justify-center gap-6">
-      <a href="#menu" class="rounded-2xl bg-white text-zinc-950 px-8 py-4 font-black hover:bg-yellow-300 transition">Ver menú</a>
-      <a href="#pedido" class="rounded-2xl border border-white/30 px-8 py-4 font-black text-white hover:bg-white hover:text-zinc-950 transition">Ordenar por WhatsApp</a>
+    <h1 class="text-3xl font-extrabold tracking-tight text-yellow-300 mb-1">Sabor de Calle Street Food</h1>
+    <span class="inline-flex rounded-full bg-black/30 border border-yellow-300/40 px-3 py-1 text-yellow-200 font-semibold text-xs">🔥 Calle La Cruz No. 7, San Francisco de Macorís</span>
+    <p class="mt-2 text-sm text-orange-50 max-w-sm mx-auto">Elige rápido y envía tu pedido por WhatsApp</p>
+    <div class="mt-4 flex justify-center gap-4">
+      <a href="#menu" class="rounded-xl bg-white text-zinc-950 px-6 py-3 font-extrabold hover:bg-yellow-300 transition">Ver menú</a>
+      <a href="#pedido" class="rounded-xl border border-white/30 px-6 py-3 font-extrabold text-white hover:bg-white hover:text-zinc-950 transition">Ordenar por WhatsApp</a>
     </div>
   </div>
 </section></header><main><section data-section="gallery"></section><section data-section="menu" id="menu" class="max-w-7xl mx-auto px-5 py-6">
@@ -212,43 +212,87 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
         <p class="text-orange-400 font-black tracking-[.25em] text-sm uppercase">Menú</p>
-        <h2 class="mt-1 text-3xl font-black">Elige tu antojo</h2>
-        <p class="mt-1 text-zinc-400 max-w-xl">Elige, arma tu pedido y envíalo por WhatsApp.</p>
+        <h2 class="mt-1 text-2xl font-black">Elige tu antojo para delivery</h2>
+        <p class="mt-1 text-zinc-400 max-w-xl">Selecciona tu categoría, elige tus productos y agrega al carrito.</p>
       </div>
-      <a href="#menuCategories" class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold px-5 py-3 rounded-lg transition">Ir al Menú</a>
     </div>
-    <div id="categoryButtons" class="mt-8 flex gap-3 overflow-x-auto no-scrollbar border-b border-zinc-700 pb-3" role="tablist" aria-label="Categorías del menú">
-      <!-- Example categories buttons with category images as background icons -->
-      <!-- These will be dynamic. For structure reference only. -->
-      <!-- Each button triggers accordion/filtro -->
+    <div id="categoryButtons" class="mt-6 flex gap-3 overflow-x-auto no-scrollbar border-b border-zinc-700 pb-3" role="tablist" aria-label="Categorías del menú">
+      <button type="button" class="category-tab px-4 py-2 rounded-lg text-zinc-300 hover:bg-green-500 hover:text-gray-900" role="tab" aria-selected="true" aria-controls="category-food" id="tab-food">Comida</button>
+      <button type="button" class="category-tab px-4 py-2 rounded-lg text-zinc-300 hover:bg-green-500 hover:text-gray-900" role="tab" aria-selected="false" aria-controls="category-drinks" id="tab-drinks">Bebidas sin alcohol</button>
     </div>
     <div id="menuCategories" class="mt-6">
-      <!-- Category accordions / tabs container -->
-      <!-- Each category as a collapsible section with image and compact dish list -->
-      <!-- Example structure (repeated dynamically): -->
-      <!--
-      <section class="mb-6">
-        <button class="w-full flex items-center justify-between bg-zinc-800 p-3 rounded-lg font-semibold text-orange-400" aria-expanded="false" aria-controls="category-1" id="category-1-button">
-          <div class="flex items-center gap-3">
-            <img src="path-to-category-image.jpg" alt="Icono de categoría 1" class="w-10 h-10 object-contain" />
-            <span>Nombre categoría</span>
-          </div>
-          <svg class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-        </button>
-        <ul id="category-1" class="hidden mt-2 space-y-1 pl-12 text-zinc-300" role="region" aria-labelledby="category-1-button">
-          <li class="flex justify-between items-center border-b border-zinc-700 py-2">
-            <span>Nombre Plato</span>
+      <section id="category-food" class="category-content active" role="tabpanel" aria-labelledby="tab-food">
+        <section class="mb-6">
+          <button class="w-full flex items-center justify-between bg-zinc-800 p-3 rounded-lg font-semibold text-orange-400" aria-expanded="false" aria-controls="category-food-list" id="category-food-button" onclick="toggleAccordion(this)">
             <div class="flex items-center gap-3">
-              <span class="font-semibold text-orange-400">$Precio</span>
-              <button class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-sm font-semibold">+ Agregar</button>
+              <img src="path-to-food-category-image.jpg" alt="Icono de comida" class="w-10 h-10 object-contain" />
+              <span>Comida</span>
             </div>
-          </li>
-          <!-- más platos -->
-        </ul>
+            <svg class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <ul id="category-food-list" class="hidden mt-2 space-y-1 pl-12 text-zinc-300" role="region" aria-labelledby="category-food-button">
+            <!-- Placeholder for food dishes; dynamic content here -->
+          </ul>
+        </section>
       </section>
-      -->
+      <section id="category-drinks" class="category-content" role="tabpanel" aria-labelledby="tab-drinks">
+        <section class="mb-6">
+          <button class="w-full flex items-center justify-between bg-zinc-800 p-3 rounded-lg font-semibold text-orange-400" aria-expanded="false" aria-controls="category-drinks-list" id="category-drinks-button" onclick="toggleAccordion(this)">
+            <div class="flex items-center gap-3">
+              <img src="path-to-drinks-category-image.jpg" alt="Icono de bebidas sin alcohol" class="w-10 h-10 object-contain" />
+              <span>Bebidas sin alcohol</span>
+            </div>
+            <svg class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <ul id="category-drinks-list" class="hidden mt-2 space-y-1 pl-12 text-zinc-300" role="region" aria-labelledby="category-drinks-button">
+            <li class="flex justify-between items-center border-b border-zinc-700 py-2">
+              <span>Jugos naturales</span>
+              <div class="flex items-center gap-3">
+                <span class="font-semibold text-orange-400">$125</span>
+                <button class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-sm font-semibold">+ Agregar</button>
+              </div>
+            </li>
+            <li class="flex justify-between items-center border-b border-zinc-700 py-2">
+              <span>Fresa frozen</span>
+              <div class="flex items-center gap-3">
+                <span class="font-semibold text-orange-400">$200</span>
+                <button class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-sm font-semibold">+ Agregar</button>
+              </div>
+            </li>
+            <li class="flex justify-between items-center border-b border-zinc-700 py-2">
+              <span>Frut pochs</span>
+              <div class="flex items-center gap-3">
+                <span class="font-semibold text-orange-400">$150</span>
+                <button class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-sm font-semibold">+ Agregar</button>
+              </div>
+            </li>
+            <li class="flex justify-between items-center border-b border-zinc-700 py-2">
+              <span>Piña colada</span>
+              <div class="flex items-center gap-3">
+                <span class="font-semibold text-orange-400">$250</span>
+                <button class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-sm font-semibold">+ Agregar</button>
+              </div>
+            </li>
+            <li class="flex justify-between items-center border-b border-zinc-700 py-2">
+              <span>Soda</span>
+              <div class="flex items-center gap-3">
+                <span class="font-semibold text-orange-400">$75</span>
+                <button class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-sm font-semibold">+ Agregar</button>
+              </div>
+            </li>
+            <li class="flex justify-between items-center border-b border-zinc-700 py-2">
+              <span>Limonada</span>
+              <div class="flex items-center gap-3">
+                <span class="font-semibold text-orange-400">$175</span>
+                <button class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-sm font-semibold">+ Agregar</button>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </section>
     </div>
   </div>
+  
 </section><section data-section="pedido" id="pedido" class="border-y border-white/10 bg-zinc-900/70">
   <div class="max-w-7xl mx-auto px-5 py-8 grid lg:grid-cols-[1fr_430px] gap-6">
     <div>
