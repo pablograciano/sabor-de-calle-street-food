@@ -1,3 +1,47 @@
+function toggleAccordion(button) {
+      const expanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', !expanded);
+      const list = document.getElementById(button.getAttribute('aria-controls'));
+      if(list) {
+        if(expanded) {
+          list.classList.add('hidden');
+        } else {
+          list.classList.remove('hidden');
+        }
+      }
+      // Rotate icon
+      const svg = button.querySelector('svg');
+      if (svg) {
+        if (expanded) {
+          svg.style.transform = 'rotate(0deg)';
+        } else {
+          svg.style.transform = 'rotate(180deg)';
+        }
+      }
+    }
+
+    // Category Tabs behavior
+    const tabs = document.querySelectorAll('#categoryButtons .category-tab');
+    const contents = document.querySelectorAll('.category-content');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+
+        contents.forEach(content => {
+          if(content.id === tab.getAttribute('aria-controls')) {
+            content.classList.add('active');
+          } else {
+            content.classList.remove('active');
+          }
+        });
+      });
+    });
+
 // Show first category by default
     document.addEventListener('DOMContentLoaded', () => {
       const tabs = document.querySelectorAll('.category-tab');
