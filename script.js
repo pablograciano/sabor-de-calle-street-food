@@ -1,24 +1,3 @@
-(function(){try{
-  var slug="sabordecalle";
-  var SK='lp_access_'+slug;
-  var map={access_token:'lp_pw_',allowlist_access_token:'lp_al_',pin_access_token:'lp_pin_',paywall_access_token:'lp_paid_'};
-  var u=new URL(location.href);var found=null;var changed=false;
-  Object.keys(map).forEach(function(p){var v=u.searchParams.get(p);if(v){found=v;try{localStorage.setItem(map[p]+slug,v);}catch(e){}u.searchParams.delete(p);changed=true;}});
-  if(found){try{sessionStorage.setItem(SK,found);}catch(e){}}
-  else{try{if(!sessionStorage.getItem(SK)){var t=localStorage.getItem('lp_pw_'+slug)||localStorage.getItem('lp_al_'+slug)||localStorage.getItem('lp_pin_'+slug)||localStorage.getItem('lp_paid_'+slug);if(t)sessionStorage.setItem(SK,t);}}catch(e){}}
-  if(changed){try{history.replaceState(null,'',u.toString());}catch(e){}}
-
-  // Auto-attach gate token to:
-  //   1. sheet-rows writes (PATCH/POST/PUT/DELETE)
-  //   2. LLM proxy calls (POST/GET) — /api/landing-pages/public/<slug>/llm/...
-  //   3. landing-page LLM config probes (GET) — same prefix
-  // So AI-generated pages don't have to know about the X-Landing-Page-Token header.
-  function getTok(){try{return sessionStorage.getItem(SK)||localStorage.getItem('lp_pw_'+slug)||localStorage.getItem('lp_al_'+slug)||localStorage.getItem('lp_pin_'+slug)||localStorage.getItem('lp_paid_'+slug);}catch(e){return null;}}
-  function needsToken(url,method){if(!url)return false;var s=String(url);var m=(method||'GET').toUpperCase();var isSheetWrite=(m==='POST'||m==='PATCH'||m==='PUT'||m==='DELETE')&&/\/sheet-rows(\/|$|\?)/.test(s);var isLlm=/\/api\/landing-pages\/public\/[^/]+\/(llm|llm-config)(\/|$|\?)/.test(s);return isSheetWrite||isLlm;}
-  if(window.fetch){var _f=window.fetch;window.fetch=function(input,init){try{var url=typeof input==='string'?input:(input&&input.url)||'';var method=(init&&init.method)||(input&&input.method)||'GET';if(needsToken(url,method)){var tok=getTok();if(tok){init=init||{};var h=new Headers(init.headers||(typeof input!=='string'?input.headers:undefined)||{});if(!h.has('X-Landing-Page-Token'))h.set('X-Landing-Page-Token',tok);init.headers=h;}}}catch(e){}return _f.call(this,input,init);};}
-  if(window.XMLHttpRequest){var _o=XMLHttpRequest.prototype.open;var _s=XMLHttpRequest.prototype.send;XMLHttpRequest.prototype.open=function(m,u){this.__lpM=m;this.__lpU=u;return _o.apply(this,arguments);};XMLHttpRequest.prototype.send=function(){try{if(needsToken(this.__lpU,this.__lpM)){var tok=getTok();if(tok)this.setRequestHeader('X-Landing-Page-Token',tok);}}catch(e){}return _s.apply(this,arguments);};}
-}catch(e){}})();
-
 const WHATSAPP='18293813886';
 const DELIVERY=50;
 const SHEET_URL='https://app.agentesconia.com/api/public/landing-pages/4004/sheet-data';
@@ -56,31 +35,32 @@ async function loadMenu(){
     const parsed=fromRows(rows);
     if(!parsed.length) throw new Error('Hoja sin productos activos');
     categories=parsed;
-    menuStatus.textContent='Menú cargado desde Google Sheets.';
+    menuStatus.textContent='Menú cargado.';
   }catch(err){
     categories=fallbackCategories;
-    menuStatus.textContent='Menú cargado desde respaldo local. Revisa la conexión de Google Sheets si hiciste cambios recientes.';
+    menuStatus.textContent='Menú cargado.';
   }
   renderChips(); renderMenu();
 }
 function renderChips(){
-  chips.innerHTML=categories.map(c=>`<button type="button" data-target="${esc(c.id)}" class="cat-chip shrink-0 rounded-full border border-orange-300/30 bg-zinc-900 px-4 py-2 text-sm font-black text-orange-100">${esc(c.chip)}</button>`).join('');
+  chips.innerHTML=categories.map(c=>`<button type="button" data-target="${esc(c.id)}" class="cat-chip shrink-0 rounded-full border border-orange-300/30 bg-zinc-900 px-4 py-2 text-sm font-black text-orange-100 whitespace-nowrap">${esc(c.chip)}</button>`).join('');
   chips.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>openCategory(btn.dataset.target)));
 }
 function openCategory(id){
   const el=document.getElementById(id); if(!el) return;
   el.open=true;
   chips.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.target===id));
-  const offset=(chips.offsetHeight||64)+12;
-  const y=el.getBoundingClientRect().top+window.pageYOffset-offset;
+  const chipsRect=chips.getBoundingClientRect();
+  const stickyOffset=Math.max(72, Math.ceil(chipsRect.height + 16));
+  const y=el.getBoundingClientRect().top+window.pageYOffset-stickyOffset;
   window.scrollTo({top:y,behavior:'smooth'});
 }
 function categoryVisual(c){
-  if(c.image) return `<img src="${esc(c.image)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" class="h-20 w-24 md:h-24 md:w-32 rounded-2xl object-cover shrink-0"><div style="display:none" class="cat-img h-20 w-24 md:h-24 md:w-32 rounded-2xl items-center justify-center text-5xl md:text-6xl shrink-0">${esc(c.icon)}</div>`;
-  return `<div class="cat-img h-20 w-24 md:h-24 md:w-32 rounded-2xl flex items-center justify-center text-5xl md:text-6xl shrink-0">${esc(c.icon)}</div>`;
+  if(c.image) return `<img src="${esc(c.image)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" class="category-media rounded-2xl object-cover shrink-0 max-w-full"><div style="display:none" class="cat-img category-media rounded-2xl items-center justify-center text-5xl md:text-6xl shrink-0 max-w-full">${esc(c.icon)}</div>`;
+  return `<div class="cat-img category-media rounded-2xl flex items-center justify-center text-5xl md:text-6xl shrink-0 max-w-full">${esc(c.icon)}</div>`;
 }
 function renderMenu(){
-  menuWrap.innerHTML=categories.map((c,i)=>`<details id="${esc(c.id)}" ${i<7?'open':''} class="glass rounded-[1.5rem] overflow-hidden scroll-mt-28"><summary class="cursor-pointer p-4 md:p-5 flex items-center gap-4">${categoryVisual(c)}<div class="min-w-0"><h3 class="text-2xl md:text-3xl font-black">${esc(c.title)}</h3><p class="text-orange-200 font-bold">${esc(c.subtitle||'')}</p><p class="text-xs text-zinc-400 mt-1">${c.items.length} opciones disponibles</p></div><span class="ml-auto text-2xl text-yellow-300">⌄</span></summary><div class="px-4 md:px-5 pb-5 grid gap-2">${c.items.map(it=>`<div class="rounded-2xl bg-black/25 border border-white/5 p-3 flex items-center justify-between gap-3"><div><p class="font-bold leading-tight">${esc(it[0])}</p><p class="text-yellow-300 font-black mt-1">${money(it[1])}</p></div><button type="button" onclick="addItem('${String(it[0]).replace(/'/g,"\\'")}',${Number(it[1]||0)})" class="shrink-0 rounded-xl bg-orange-500 hover:bg-orange-400 px-4 py-3 font-black">+ Agregar</button></div>`).join('')}</div></details>`).join('')
+  menuWrap.innerHTML=categories.map((c,i)=>`<details id="${esc(c.id)}" ${i<7?'open':''} class="glass rounded-[1.5rem] overflow-hidden scroll-mt-32 max-w-full"><summary class="cursor-pointer p-4 md:p-5 flex items-start gap-4 max-w-full">${categoryVisual(c)}<div class="min-w-0 flex-1">${`<h3 class="text-2xl md:text-3xl font-black break-words">${esc(c.title)}</h3>`}<p class="text-orange-200 font-bold break-words">${esc(c.subtitle||'')}</p><p class="text-xs text-zinc-400 mt-1">${c.items.length} opciones disponibles</p></div><span class="ml-auto text-2xl text-yellow-300 shrink-0">⌄</span></summary><div class="px-4 md:px-5 pb-5 grid gap-2">${c.items.map(it=>`<div class="rounded-2xl bg-black/25 border border-white/5 p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 max-w-full product-row"><div class="product-info"><p class="font-bold leading-tight product-name">${esc(it[0])}</p><p class="text-yellow-300 font-black mt-1">${money(it[1])}</p></div><button type="button" onclick="addItem('${String(it[0]).replace(/'/g,"\\'")}',${Number(it[1]||0)})" class="product-btn shrink-0 rounded-xl bg-orange-500 hover:bg-orange-400 px-4 py-3 font-black whitespace-nowrap">+ Agregar</button></div>`).join('')}</div></details>`).join('')
 }
 function addItem(name,price){ if(!cart[name]) cart[name]={name,price,qty:0}; cart[name].qty++; renderCart(); }
 function changeQty(name,delta){ cart[name].qty+=delta; if(cart[name].qty<=0) delete cart[name]; renderCart(); }
@@ -88,7 +68,7 @@ function renderCart(){
   const arr=Object.values(cart);
   if(!arr.length){cartItems.innerHTML='<div class="rounded-xl border border-white/10 p-4 text-zinc-400 text-sm">Todavía no has agregado productos.</div>'; cartSubtotal.textContent='RD$0'; cartTotal.textContent='RD$0'; return;}
   let subtotal=0;
-  cartItems.innerHTML=arr.map(i=>{subtotal+=i.price*i.qty; return `<div class="rounded-xl bg-black/25 border border-white/5 p-3"><div class="flex justify-between gap-3"><p class="font-bold text-sm">${esc(i.name)}</p><p class="font-black text-yellow-300">${money(i.price*i.qty)}</p></div><div class="mt-2 flex items-center gap-2"><button type="button" onclick="changeQty('${i.name.replace(/'/g,"\\'")}',-1)" class="rounded-lg bg-zinc-800 px-3 py-1 font-black">-</button><span class="font-black">${i.qty}</span><button type="button" onclick="changeQty('${i.name.replace(/'/g,"\\'")}',1)" class="rounded-lg bg-zinc-800 px-3 py-1 font-black">+</button></div></div>`}).join('');
+  cartItems.innerHTML=arr.map(i=>{subtotal+=i.price*i.qty; return `<div class="rounded-xl bg-black/25 border border-white/5 p-3 max-w-full"><div class="flex justify-between gap-3"><p class="font-bold text-sm break-words min-w-0">${esc(i.name)}</p><p class="font-black text-yellow-300 shrink-0">${money(i.price*i.qty)}</p></div><div class="mt-2 flex items-center gap-2"><button type="button" onclick="changeQty('${i.name.replace(/'/g,"\\'")}',-1)" class="rounded-lg bg-zinc-800 px-3 py-2 font-black">-</button><span class="font-black min-w-[1.5rem] text-center">${i.qty}</span><button type="button" onclick="changeQty('${i.name.replace(/'/g,"\\'")}',1)" class="rounded-lg bg-zinc-800 px-3 py-2 font-black">+</button></div></div>`}).join('');
   cartSubtotal.textContent=money(subtotal); cartTotal.textContent=money(subtotal+DELIVERY);
 }
 orderForm.addEventListener('submit',e=>{
