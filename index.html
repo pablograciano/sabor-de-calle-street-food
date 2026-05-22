@@ -208,8 +208,8 @@
 </script>  <link rel="stylesheet" href="styles.css">
 </head>
 <body class="min-h-screen">
-<header class="fire-bg border-b border-white/10">
-  <nav class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+<header data-section="hero" class="fire-bg border-b border-white/10">
+  <nav data-section="navbar" class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
     <a href="#inicio" class="flex items-center gap-3">
       <img src="assets/logo-sabor-de-calle.png" onerror="this.style.display='none'" class="w-16 h-12 object-contain rounded-xl" alt="Sabor de Calle" />
       <div>
@@ -219,7 +219,7 @@
     </a>
     <a href="#menu" class="bg-orange-500 hover:bg-orange-400 text-white rounded-full px-5 py-3 font-black text-sm">Ver menú</a>
   </nav>
-  <section id="inicio" class="max-w-7xl mx-auto px-4 py-8 md:py-12 grid lg:grid-cols-[1fr_380px] gap-6 items-center">
+  <section data-section="hero-content" id="inicio" class="max-w-7xl mx-auto px-4 py-8 md:py-12 grid lg:grid-cols-[1fr_380px] gap-6 items-center">
     <div>
       <span class="inline-flex rounded-full border border-yellow-300/30 bg-black/30 px-4 py-2 text-sm text-yellow-100">📍 Calle La Cruz No. 7, San Francisco de Macorís</span>
       <h1 class="mt-5 text-4xl md:text-6xl font-black leading-[.95]">Elige rápido y pide por delivery.</h1>
@@ -236,21 +236,21 @@
   </section>
 </header>
 
-<main class="max-w-7xl mx-auto px-4 py-8 md:py-12 grid lg:grid-cols-[1fr_360px] gap-6 items-start">
-  <section id="menu">
+<main data-section="menu-layout" class="max-w-7xl mx-auto px-4 py-8 md:py-12 grid lg:grid-cols-[1fr_360px] gap-6 items-start">
+  <section data-section="menu" id="menu">
     <div class="flex items-end justify-between gap-4 flex-wrap">
       <div>
         <h2 class="text-3xl md:text-5xl font-black">Menú para delivery</h2>
-        <p class="mt-2 text-zinc-400">El menú se actualiza desde Google Sheets.</p>
+        <p class="mt-2 text-zinc-400"> </p>
       </div>
       <a href="#pedido" class="rounded-full bg-green-500 text-zinc-950 font-black px-5 py-3">Enviar pedido</a>
     </div>
-    <div id="menuStatus" class="mt-4 rounded-xl border border-white/10 bg-zinc-900 px-4 py-3 text-sm text-zinc-300">Cargando menú...</div>
+    <div id="menuStatus" class="mt-4 rounded-xl border border-white/10 bg-zinc-900 px-4 py-3 text-sm text-zinc-300"></div>
     <div id="chips" class="mt-4 flex gap-2 overflow-x-auto pb-2 sticky top-0 z-30 bg-[#09090b]/95 backdrop-blur py-3 border-y border-white/5"></div>
     <div id="menuWrap" class="mt-4 space-y-4"></div>
   </section>
 
-  <aside class="lg:sticky lg:top-4 glass rounded-[1.5rem] p-5 cart-panel" id="pedido">
+  <aside data-section="cart" class="lg:sticky lg:top-4 glass rounded-[1.5rem] p-5 cart-panel" id="pedido">
     <h2 class="text-2xl font-black">Tu pedido</h2>
     <p class="text-sm text-zinc-400 mt-1">Agrega productos y completa tus datos.</p>
     <div id="cartItems" class="mt-4 space-y-3"></div>
@@ -269,7 +269,7 @@
   </aside>
 </main>
 
-<footer class="border-t border-white/10 py-8">
+<footer data-section="footer" class="border-t border-white/10 py-8">
   <div class="max-w-7xl mx-auto px-4 flex flex-col items-center text-center gap-3 text-sm text-zinc-400">
     <img src="assets/logo-sabor-de-calle.png" onerror="this.style.display='none'" class="w-24 object-contain rounded-xl" alt="Sabor de Calle" />
     <p>© <span id="year"></span> Sabor de Calle Street Food. Desarrollado por Pablo Graciano.</p>
