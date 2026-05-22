@@ -1,19 +1,93 @@
-const WHATSAPP='18293813886';
-const categories=[
- {id:'parrilla',chip:'Parrilla',title:'Asado a la parrilla',subtitle:'O a la plancha',icon:'🥩',items:[['Alitas de pollo asada BBQ',450],['Muzlo de pollo asado',375],['Brocheta de pollo',375],['Pincho de res',375],['Brocheta de cerdo',375],['Chuleta de cerdo BBQ',450],['Costillitas asada',495],['Filete de cerdo parrilla',550],['Filete de res a la parrilla',750],['Pollo criollo asado 1/4',475],['Pizza personal',325]]},
- {id:'exquisiteces',chip:'Exquisiteces',title:'Exquisiteces',subtitle:'Especialidades de la casa',icon:'🍽️',items:[['Chivo asado',990],['Guinea sada',990],['Pescado entero chillo a la plancha 1 libra',990],['Langosta a la parrilla',1500]]},
- {id:'importados',chip:'Importados',title:'Importados',subtitle:'Cortes y platos premium',icon:'🔥',items:[['Salmon importado',750],['Churrasco importado 10 onza',1300],['Ribeye importado 12 onza',1450]]},
- {id:'jovenes',chip:'Jóvenes',title:'Para los más jóvenes',subtitle:'Favoritos urbanos',icon:'🍔',items:[['Hamburguesa de la casa',425],['Chimi dorado',425],['Mofongo de chicharron',425],['Mofongo de pollo y chicharron en salsa 4 queso',550],['Mofongo de camarones a la crema y chicharron',850],['Carnita de cerdo frita',425],['Tacos de la casa 3 unidades',350],['Pechurina',425],['Chicharrones de pollo con hueso',425],['Salchichas salteadas',275],['Chicharron de cerdo',650],['Alitas con salsa Bufalo Wings',450]]},
- {id:'antojitos',chip:'Antojitos',title:'Nuevos antojitos',subtitle:'Para picar y compartir',icon:'🥟',items:[['Empanadas 1 unidad',100],['Pastelitos 2 unidades',100],['Quipes 2 unidades',100]]},
- {id:'guarniciones',chip:'Guarniciones',title:'Guarniciones',subtitle:'Acompaña tu orden',icon:'🍟',items:[['Papas fritas',150],['Tostones',150],['Palitos de yuca',150],['Maíz asado',150],['Platano Maduro',150]]},
- {id:'bebidas',chip:'Sin alcohol',title:'Bebidas sin alcohol',subtitle:'Refrescantes',icon:'🥤',items:[['Jugos naturales',125],['Fresa frozen',200],['Frut pochs',150],['Piña colada',250],['Soda',75],['Limonada',175]]}
-];
-const cart={};
-function money(n){return 'RD$'+n.toLocaleString('es-DO')}
-function renderChips(){chips.innerHTML=categories.map(c=>`<a href="#${c.id}" class="shrink-0 rounded-full border border-orange-300/30 bg-zinc-900 px-4 py-2 text-sm font-black text-orange-100">${c.chip}</a>`).join('')}
-function renderMenu(){menuWrap.innerHTML=categories.map((c,i)=>`<details id="${c.id}" ${i<7?'open':''} class="glass rounded-[1.5rem] overflow-hidden scroll-mt-20"><summary class="cursor-pointer p-4 md:p-5 flex items-center gap-4"><div class="cat-img h-20 w-24 md:h-24 md:w-32 rounded-2xl flex items-center justify-center text-5xl md:text-6xl shrink-0">${c.icon}</div><div class="min-w-0"><h3 class="text-2xl md:text-3xl font-black">${c.title}</h3><p class="text-orange-200 font-bold">${c.subtitle||''}</p><p class="text-xs text-zinc-400 mt-1">${c.items.length} opciones disponibles</p></div><span class="ml-auto text-2xl text-yellow-300">⌄</span></summary><div class="px-4 md:px-5 pb-5 grid gap-2">${c.items.map(it=>`<div class="rounded-2xl bg-black/25 border border-white/5 p-3 flex items-center justify-between gap-3"><div><p class="font-bold leading-tight">${it[0]}</p><p class="text-yellow-300 font-black mt-1">${money(it[1])}</p></div><button onclick="addItem('${it[0].replace(/'/g,"\\'")}',${it[1]})" class="shrink-0 rounded-xl bg-orange-500 hover:bg-orange-400 px-4 py-3 font-black">+ Agregar</button></div>`).join('')}</div></details>`).join('')}
-function addItem(name,price){ if(!cart[name]) cart[name]={name,price,qty:0}; cart[name].qty++; renderCart(); }
-function changeQty(name,delta){ cart[name].qty+=delta; if(cart[name].qty<=0) delete cart[name]; renderCart(); }
-function renderCart(){ const arr=Object.values(cart); if(!arr.length){cartItems.innerHTML='<div class="rounded-xl border border-white/10 p-4 text-zinc-400 text-sm">Todavía no has agregado productos.</div>'; cartTotal.textContent='RD$0'; return;} let total=0; cartItems.innerHTML=arr.map(i=>{total+=i.price*i.qty; return `<div class="rounded-xl bg-black/25 border border-white/5 p-3"><div class="flex justify-between gap-3"><p class="font-bold text-sm">${i.name}</p><p class="font-black text-yellow-300">${money(i.price*i.qty)}</p></div><div class="mt-2 flex items-center gap-2"><button type="button" onclick="changeQty('${i.name.replace(/'/g,"\\'")}',-1)" class="rounded-lg bg-zinc-800 px-3 py-1 font-black">-</button><span class="font-black">${i.qty}</span><button type="button" onclick="changeQty('${i.name.replace(/'/g,"\\'")}',1)" class="rounded-lg bg-zinc-800 px-3 py-1 font-black">+</button></div></div>`}).join(''); cartTotal.textContent=money(total); }
-orderForm.addEventListener('submit',e=>{e.preventDefault(); const arr=Object.values(cart); if(!arr.length){alert('Agrega al menos un producto.');return;} const f=new FormData(orderForm); const total=arr.reduce((s,i)=>s+i.price*i.qty,0); const lines=arr.map(i=>`- ${i.qty} x ${i.name} = ${money(i.qty*i.price)}`).join('\n'); const msg=`Nuevo pedido - Sabor de Calle Street Food\n\nProductos:\n${lines}\n\nTotal: ${money(total)}\n\nCliente: ${f.get('name')}\nTeléfono: ${f.get('phone')}\nDirección: ${f.get('address')}\nNotas: ${f.get('notes')||'Sin notas'}`; window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,'_blank');});
-year.textContent=new Date().getFullYear(); renderChips(); renderMenu(); renderCart();
+(function(){try{
+  var slug="sabordecalle";
+  var SK='lp_access_'+slug;
+  var map={access_token:'lp_pw_',allowlist_access_token:'lp_al_',pin_access_token:'lp_pin_',paywall_access_token:'lp_paid_'};
+  var u=new URL(location.href);var found=null;var changed=false;
+  Object.keys(map).forEach(function(p){var v=u.searchParams.get(p);if(v){found=v;try{localStorage.setItem(map[p]+slug,v);}catch(e){}u.searchParams.delete(p);changed=true;}});
+  if(found){try{sessionStorage.setItem(SK,found);}catch(e){}}
+  else{try{if(!sessionStorage.getItem(SK)){var t=localStorage.getItem('lp_pw_'+slug)||localStorage.getItem('lp_al_'+slug)||localStorage.getItem('lp_pin_'+slug)||localStorage.getItem('lp_paid_'+slug);if(t)sessionStorage.setItem(SK,t);}}catch(e){}}
+  if(changed){try{history.replaceState(null,'',u.toString());}catch(e){}}
+
+  // Auto-attach gate token to:
+  //   1. sheet-rows writes (PATCH/POST/PUT/DELETE)
+  //   2. LLM proxy calls (POST/GET) — /api/landing-pages/public/<slug>/llm/...
+  //   3. landing-page LLM config probes (GET) — same prefix
+  // So AI-generated pages don't have to know about the X-Landing-Page-Token header.
+  function getTok(){try{return sessionStorage.getItem(SK)||localStorage.getItem('lp_pw_'+slug)||localStorage.getItem('lp_al_'+slug)||localStorage.getItem('lp_pin_'+slug)||localStorage.getItem('lp_paid_'+slug);}catch(e){return null;}}
+  function needsToken(url,method){if(!url)return false;var s=String(url);var m=(method||'GET').toUpperCase();var isSheetWrite=(m==='POST'||m==='PATCH'||m==='PUT'||m==='DELETE')&&/\/sheet-rows(\/|$|\?)/.test(s);var isLlm=/\/api\/landing-pages\/public\/[^/]+\/(llm|llm-config)(\/|$|\?)/.test(s);return isSheetWrite||isLlm;}
+  if(window.fetch){var _f=window.fetch;window.fetch=function(input,init){try{var url=typeof input==='string'?input:(input&&input.url)||'';var method=(init&&init.method)||(input&&input.method)||'GET';if(needsToken(url,method)){var tok=getTok();if(tok){init=init||{};var h=new Headers(init.headers||(typeof input!=='string'?input.headers:undefined)||{});if(!h.has('X-Landing-Page-Token'))h.set('X-Landing-Page-Token',tok);init.headers=h;}}}catch(e){}return _f.call(this,input,init);};}
+  if(window.XMLHttpRequest){var _o=XMLHttpRequest.prototype.open;var _s=XMLHttpRequest.prototype.send;XMLHttpRequest.prototype.open=function(m,u){this.__lpM=m;this.__lpU=u;return _o.apply(this,arguments);};XMLHttpRequest.prototype.send=function(){try{if(needsToken(this.__lpU,this.__lpM)){var tok=getTok();if(tok)this.setRequestHeader('X-Landing-Page-Token',tok);}}catch(e){}return _s.apply(this,arguments);};}
+}catch(e){}})();
+
+function toggleAccordion(button) {
+      const expanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', !expanded);
+      const list = document.getElementById(button.getAttribute('aria-controls'));
+      if(list) {
+        if(expanded) {
+          list.classList.add('hidden');
+        } else {
+          list.classList.remove('hidden');
+        }
+      }
+      // Rotate icon
+      const svg = button.querySelector('svg');
+      if (svg) {
+        if (expanded) {
+          svg.style.transform = 'rotate(0deg)';
+        } else {
+          svg.style.transform = 'rotate(180deg)';
+        }
+      }
+    }
+
+    // Category Tabs behavior
+    const tabs = document.querySelectorAll('#categoryButtons .category-tab');
+    const contents = document.querySelectorAll('.category-content');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+
+        contents.forEach(content => {
+          if(content.id === tab.getAttribute('aria-controls')) {
+            content.classList.add('active');
+          } else {
+            content.classList.remove('active');
+          }
+        });
+      });
+    });
+
+// Show first category by default
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('.category-tab');
+      const contents = document.querySelectorAll('[data-category-content]');
+      function activateCategory(cat) {
+        contents.forEach(c => c.classList.remove('active'));
+        tabs.forEach(t => t.classList.remove('active'));
+        document.querySelector(`[data-category-content='${cat}']`).classList.add('active');
+        document.querySelector(`.category-tab[data-category='${cat}']`).classList.add('active');
+      }
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => activateCategory(tab.dataset.category));
+      });
+      // Activate first tab initially
+      if(tabs.length) activateCategory(tabs[0].dataset.category);
+    });
+
+    // Placeholder functions to be implemented on main script
+    function addToCart(name, price) {
+      // Append item to cart logic...
+      if(window.addItemToCart) window.addItemToCart(name, price);
+    }
+    function clearCart() {
+      if(window.clearCartFunction) window.clearCartFunction();
+    }
+    function submitOrder() {
+      if(window.submitOrderFunction) window.submitOrderFunction();
+    }
