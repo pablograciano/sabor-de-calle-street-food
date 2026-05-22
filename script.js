@@ -33,10 +33,26 @@ function toggleAccordion(button) {
         tab.setAttribute('aria-selected', 'true');
 
         contents.forEach(content => {
+          // Always show all categories by removing 'active' class from all
+          content.classList.remove('active');
           if(content.id === tab.getAttribute('aria-controls')) {
+            // Add active to the selected
             content.classList.add('active');
-          } else {
-            content.classList.remove('active');
+            // Open the accordion inside this category if it exists
+            const button = content.querySelector('button[aria-expanded]');
+            if (button && button.getAttribute('aria-expanded') === 'false') {
+              button.setAttribute('aria-expanded', 'true');
+              const list = document.getElementById(button.getAttribute('aria-controls'));
+              if(list) {
+                list.classList.remove('hidden');
+              }
+              const svg = button.querySelector('svg');
+              if(svg) {
+                svg.style.transform = 'rotate(180deg)';
+              }
+            }
+            // Smooth scroll to category
+            content.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         });
       });
