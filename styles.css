@@ -1,34 +1,18 @@
-html, body { background:#09090b !important; color:#fff !important; scroll-behavior:smooth; overflow-x:hidden; max-width:100%; }
+*, *::before, *::after { box-sizing: border-box; }
+  html, body { background:#09090b !important; color:#fff !important; scroll-behavior:smooth; overflow-x:hidden; max-width:100%; }
   body { font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
   .fire-bg { background: radial-gradient(circle at 20% 10%, rgba(249,115,22,.30), transparent 30%), radial-gradient(circle at 80% 0%, rgba(220,38,38,.22), transparent 30%), linear-gradient(135deg,#09090b,#18110b 55%,#09090b); }
-  .glass { background: rgba(24,24,27,.74); border:1px solid rgba(255,255,255,.10); backdrop-filter: blur(10px); }
+  .glass { background: rgba(24,24,27,.78); border:1px solid rgba(255,255,255,.10); backdrop-filter: blur(10px); }
   .cat-img { background: linear-gradient(135deg, rgba(249,115,22,.35), rgba(220,38,38,.16)); }
   details > summary { list-style:none; }
   details > summary::-webkit-details-marker { display:none; }
   .cart-panel { max-height: calc(100vh - 120px); overflow:auto; }
   .cat-chip.active { background:#f97316; color:#111827; border-color:#f97316; }
-  #chips {
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
-  }
-  #chips::-webkit-scrollbar { height: 6px; }
-  #chips::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 999px; }
-  .product-row { align-items: flex-start; }
-  .product-info { min-width: 0; flex: 1 1 auto; }
-  .product-name { overflow-wrap: anywhere; word-break: break-word; }
-  .product-btn { flex: 0 0 auto; }
-  .category-media { width: clamp(5.5rem, 22vw, 8rem); height: clamp(5.5rem, 22vw, 8rem); }
-  .hero-image { object-fit: cover; }
-  @media (max-width: 639px) {
-    .cart-panel { max-height: none; overflow: visible; }
-    .hero-title { font-size: clamp(2rem, 8vw, 2.75rem); line-height: .98; }
-    .hero-copy { font-size: 1rem; }
-    .compact-pad { padding-left: 1rem; padding-right: 1rem; }
-  }
-  @media (min-width: 640px) and (max-width: 1023px) {
-    .hero-title { font-size: clamp(2.5rem, 5vw, 4rem); line-height: .96; }
+  .hide-scroll::-webkit-scrollbar { display:none; }
+  .hide-scroll { -ms-overflow-style:none; scrollbar-width:none; }
+  @media (max-width: 767px) {
+    .cart-panel { max-height:none; overflow:visible; }
+    .product-row { align-items:flex-start; }
+    .product-row button { min-width:96px; }
+    .chips-sticky { top:0; }
   }
