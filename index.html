@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JC6J0G4J0E"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-JC6J0G4J0E');
-</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -26,19 +17,11 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Sabor de Calle Street Food | Pedidos en San Francisco de Macorís" />
 <meta name="twitter:description" content="Menú digital dinámico de Sabor de Calle Street Food en San Francisco de Macorís." />
-<link rel="icon" href="favicon.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="favicon.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="favicon.png" />
+<link rel="icon" href="https://paymegpt.com/api/landing-pages/images/landing-page-images%2F0%2F1779413550063_blob.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="https://paymegpt.com/api/landing-pages/images/landing-page-images%2F0%2F1779413550063_blob.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="https://paymegpt.com/api/landing-pages/images/landing-page-images%2F0%2F1779413550063_blob.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="https://paymegpt.com/api/landing-pages/images/landing-page-images%2F0%2F1779413550063_blob.png" />
 <!-- End SEO Meta Tags -->
-<meta name="sheet-data-url" content="https://paymegpt.com/api/public/landing-pages/4004/sheet-data">
-
-
-<!-- TRACKING:HEAD START (managed by Coding Agent — do not edit) -->
-<!-- Google Analytics (GA4) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JC6J0G4J0E"></script>
-
-<!-- TRACKING:HEAD END -->
 
 <script data-field-replace>
 (function(){
@@ -198,9 +181,10 @@
     if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
     if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
     var successBase=window.location.href.split('?')[0];
+    var __pLoc=(document.documentElement.lang||navigator.language||'en');
     return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,locale:__pLoc,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
     }).then(function(r){return r.json();}).then(function(d){
       if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
       else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
@@ -277,6 +261,7 @@
     <div id="cartItems" class="mt-4 space-y-3"></div>
     <div class="mt-4 border-t border-white/10 pt-4 space-y-2">
       <div class="flex justify-between text-sm text-zinc-300"><span>Subtotal</span><span id="cartSubtotal">RD$0</span></div>
+      <div class="flex justify-between text-sm text-zinc-300"><span>Cargo 18%</span><span id="cartCargo">RD$0</span></div>
       <div class="flex justify-between text-sm text-zinc-300"><span>Delivery</span><span>RD$50</span></div>
       <div class="flex justify-between text-xl font-black"><span>Total</span><span id="cartTotal">RD$0</span></div>
     </div>
@@ -287,6 +272,7 @@
       <textarea name="notes" class="w-full min-w-0 rounded-xl bg-zinc-950 border border-white/10 px-4 py-3" rows="3" placeholder="Notas del pedido"></textarea>
       <button class="w-full rounded-2xl bg-green-500 hover:bg-green-400 text-zinc-950 py-4 font-black" type="submit">Enviar por WhatsApp</button>
     </form>
+    
   </aside>
 </main>
 
